@@ -65,7 +65,7 @@ https://spinecare-ai-api.onrender.com
 1. 登录 Vercel
 2. `Add New...` -> `Project`
 3. 导入同一个 GitHub 仓库
-4. 在 `Root Directory` 里选择 `frontend`
+4. `Root Directory` 可以留空，当前仓库已经配置成在根目录执行 `npm install` 和 `npm run build` 也能正确构建前端
 5. 配置环境变量：
    - `NEXT_PUBLIC_API_BASE_URL`
    - `NEXT_PUBLIC_SUPABASE_URL`
