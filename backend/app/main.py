@@ -22,12 +22,12 @@ app.add_middleware(
 )
 
 
-@app.get("/api/health")
+@app.get("/health")
 async def health_check() -> dict[str, str]:
     return {"status": "ok"}
 
 
-@app.post("/api/reports/analyze", response_model=ReportAnalysisResponse)
+@app.post("/reports/analyze", response_model=ReportAnalysisResponse)
 async def analyze_report(
     file: UploadFile = File(...),
     patientName: str = Form(default=""),

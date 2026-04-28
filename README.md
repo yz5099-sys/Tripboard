@@ -149,10 +149,10 @@ cd frontend
 - [backend/Dockerfile](/Users/zhuyifei/Documents/New%20project/backend/Dockerfile)
 - [vercel.json](/Users/zhuyifei/Documents/New%20project/vercel.json)
 
-推荐部署组合：
+当前也支持把前后端一起部署到同一个 Vercel 项目：
 
-- 前端：Vercel
-- 后端：Render
+- 前端：Next.js
+- 后端：`api/index.py` 暴露的 FastAPI
 - 数据库与认证：Supabase
 
 ## 下一步最值得继续做的事

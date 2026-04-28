@@ -14,7 +14,8 @@ export type ReportInsight = {
   rawModelText: string;
 };
 
-const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000";
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "";
+const apiPathPrefix = process.env.NEXT_PUBLIC_API_BASE_URL ? "" : "/api";
 
 export async function analyzeReportFile(input: {
   file: File;
@@ -28,7 +29,7 @@ export async function analyzeReportFile(input: {
   formData.append("tumorType", input.tumorType);
   formData.append("surgeryDate", input.surgeryDate);
 
-  const response = await fetch(`${apiBaseUrl}/api/reports/analyze`, {
+  const response = await fetch(`${apiBaseUrl}${apiPathPrefix}/reports/analyze`, {
     method: "POST",
     body: formData
   });
