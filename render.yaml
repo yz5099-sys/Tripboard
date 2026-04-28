@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: spinecare-ai-api
+    runtime: docker
+    plan: starter
+    rootDir: backend
+    autoDeploy: true
+    healthCheckPath: /api/health
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_REPORT_MODEL
+        value: gpt-5.4-mini
+      - key: CORS_ORIGINS
+        sync: false
