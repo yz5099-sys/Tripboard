@@ -4,10 +4,10 @@
 
 :root {
   --font-sans: "Avenir Next", "PingFang SC", "Noto Sans SC", sans-serif;
-  --bg: #fffdfa;
-  --ink: #1e293b;
-  --muted: #64748b;
-  --panel: rgba(255, 255, 255, 0.8);
+  --bg: #f6f1ea;
+  --ink: #343331;
+  --muted: #77736d;
+  --panel: rgba(255, 253, 248, 0.86);
 }
 
 * {
@@ -21,10 +21,10 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
+  overflow-x: hidden;
   background:
-    radial-gradient(circle at top left, rgba(249, 221, 226, 0.72), transparent 30%),
-    radial-gradient(circle at top right, rgba(220, 238, 255, 0.72), transparent 28%),
-    linear-gradient(180deg, #fffdfa 0%, #f4f9ff 52%, #fffdf8 100%);
+    linear-gradient(135deg, rgba(216, 170, 165, 0.18) 0 18%, transparent 18% 100%),
+    linear-gradient(180deg, #f6f1ea 0%, #fffaf3 48%, #f3e5bc 140%);
   color: var(--ink);
   font-family: var(--font-sans);
 }
@@ -39,16 +39,36 @@ input,
 textarea,
 select {
   font: inherit;
+  min-width: 0;
 }
 
 .hero-grid {
   background-image:
-    linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+    linear-gradient(rgba(111, 117, 111, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(111, 117, 111, 0.06) 1px, transparent 1px);
   background-size: 28px 28px;
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 253, 248, 0.86);
   backdrop-filter: blur(18px);
+}
+
+.input-shell {
+  min-height: 42px;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1px solid #ded4ca;
+  background: #fffdf8;
+  padding: 0.65rem 0.75rem;
+  color: #343331;
+  font-weight: 700;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.input-shell:focus {
+  border-color: #d8aaa5;
+  box-shadow: 0 0 0 3px rgba(216, 170, 165, 0.22);
 }

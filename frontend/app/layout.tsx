@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SpineCare AI｜脊椎肿瘤复查助手",
-  description: "帮助脊椎肿瘤患者完成复查提醒、报告解析、症状问诊与风险提示的 PWA 医疗网页应用。",
-  applicationName: "SpineCare AI",
+  title: "Tripboard | Collaborative Travel Planner",
+  description: "A bilingual collaborative itinerary board for AI place suggestions and drag-and-drop scheduling.",
+  applicationName: "Tripboard",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "SpineCare AI"
+    title: "Tripboard"
   }
 };
 
@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN">
+    <html lang="en">
       <body>{children}</body>
     </html>
   );

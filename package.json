@@ -1,5 +1,5 @@
 {
-  "name": "spinecare-ai-monorepo",
+  "name": "tripboard-monorepo",
   "private": true,
   "workspaces": [
     "frontend"

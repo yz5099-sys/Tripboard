@@ -1,164 +1,97 @@
-# SpineCare AI｜脊椎肿瘤复查助手
+# Tripboard
 
-这是基于你的 PRD 落地的一版可运行医疗 Web App MVP，当前已经接入：
+Tripboard is a bilingual collaborative travel planner prototype. Users can configure a destination and dates, generate AI place suggestions, create custom place cards, then drag places into a visual itinerary schedule.
 
-- Supabase 真实登录与数据持久化
-- OpenAI 多模态报告解析
-- PDF / 图片 / DOCX / TXT 报告上传
-- 症状问诊保存
-- AI 复查周期建议
-- PWA 安装支持
+## Features
 
-## 当前架构
+- Trip setup with country, region, city, date range, and travelers
+- AI place suggestions from a FastAPI backend
+- Place cards sorted by rating from high to low
+- Custom place-card editor
+- Drag cards into a 06:00-24:00 scheduler
+- 30-minute snapping, move, resize, and duration editing
+- Conflict prevention for overlapping activities
+- English / Chinese UI toggle
+- Shareable itinerary URLs with no login
+- Basic real-time collaboration with `BroadcastChannel` and `localStorage`
+- Responsive layout for desktop and mobile
 
-### 前端
+## Project Structure
 
-- `frontend/`
-- Next.js 14
-- 浏览器端直接调用 Supabase Auth / PostgREST REST API
-- 登录方式：邮箱 + 密码
-
-### 后端
-
-- `backend/`
-- FastAPI
-- 调用 OpenAI Responses API
-- 本地预处理：
-  - PDF：`pypdf`
-  - DOCX：`python-docx`
-  - 图片：交给 OpenAI 视觉能力做 OCR + 理解
-
-## 已实现的数据持久化
-
-Supabase 中会保存：
-
-- 患者基础档案 `patient_profiles`
-- 症状记录 `symptom_entries`
-- 报告 AI 解析结果 `report_analyses`
-
-SQL 已准备在：
-
-- [schema.sql](/Users/zhuyifei/Documents/New%20project/supabase/schema.sql)
-
-## 环境变量
-
-### 前端
-
-参考：
-
-- [frontend/.env.example](/Users/zhuyifei/Documents/New%20project/frontend/.env.example)
-
-需要配置：
-
-```bash
-NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
-NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+```text
+.
+├── api/                 # Vercel Python entrypoint
+├── backend/             # FastAPI app and AI service
+├── frontend/            # Next.js + React + Tailwind app
+├── requirements.txt     # Python deps for Vercel
+├── package.json         # Frontend workspace scripts
+└── vercel.json          # One-project Vercel deployment config
 ```
 
-### 后端
+The repository is organized for one Vercel project: Vercel builds the Next.js frontend from `frontend/` and serves the FastAPI backend through `api/index.py` under `/api/*`.
 
-参考：
+## Local Development
 
-- [backend/.env.example](/Users/zhuyifei/Documents/New%20project/backend/.env.example)
-
-需要配置：
-
-```bash
-OPENAI_API_KEY=your-openai-api-key
-OPENAI_REPORT_MODEL=gpt-5.4-mini
-CORS_ORIGINS=http://127.0.0.1:3000,http://localhost:3000
-```
-
-## 启动步骤
-
-### 1. 初始化 Supabase
-
-1. 在 Supabase 创建项目
-2. 打开 SQL Editor
-3. 执行 [schema.sql](/Users/zhuyifei/Documents/New%20project/supabase/schema.sql)
-4. 在 Authentication 中启用 Email 登录
-5. 如果你想让“注册后立刻登录”更顺畅，可以先关闭强制邮箱确认；如果保持开启，前端也会提示用户先验证邮箱
-
-### 2. 启动后端
+Backend:
 
 ```bash
 cd backend
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-uvicorn app.main:app --reload
+cp .env.example .env
+uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
-### 3. 启动前端
-
-如果本机有 `npm`：
+Frontend:
 
 ```bash
 cd frontend
 npm install
+cp .env.example .env.local
 npm run dev
 ```
 
-如果当前终端没有全局 `npm`，仍可用工作区自带 Node 启动：
+Open:
+
+```text
+http://localhost:3000
+```
+
+## Environment Variables
+
+Backend `.env`:
+
+```bash
+OPENAI_API_KEY=your-openai-api-key
+OPENAI_TRAVEL_MODEL=gpt-5.4-mini
+CORS_ORIGINS=http://127.0.0.1:3000,http://localhost:3000
+```
+
+Frontend `.env.local` for local backend:
+
+```bash
+NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
+```
+
+For Vercel same-project deployment, leave `NEXT_PUBLIC_API_BASE_URL` empty or unset so the frontend calls `/api/travel/suggestions`.
+
+## Checks
 
 ```bash
 cd frontend
-/Users/zhuyifei/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/next/dist/bin/next dev
+npm run build
 ```
-
-## OpenAI 解析方式
-
-当前后端使用 OpenAI Responses API：
-
-- 图片：作为 `input_image` 发送，做 OCR + 医学理解
-- PDF / 文档：作为 `input_file` 发送，并附带本地抽取文本辅助理解
-
-我参考了官方文档关于：
-
-- Responses API 支持文本、图片和文件输入
-- 文件输入支持 Base64 方式传入
-- 图片支持 Base64 data URL 作为输入
-
-来源：
-
-- [Responses API](https://platform.openai.com/docs/api-reference/responses/list?lang=python)
-- [File inputs](https://developers.openai.com/api/docs/guides/file-inputs)
-- [Images and vision](https://developers.openai.com/api/docs/guides/images-vision)
-
-## 已完成验证
-
-前端构建通过：
 
 ```bash
-/Users/zhuyifei/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/next/dist/bin/next build
+cd backend
+python -m compileall app
 ```
 
-后端语法检查通过：
+## GitHub Upload Notes
 
-```bash
-/Users/zhuyifei/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 -m compileall backend/app
-```
+Do not upload `.env`, `.env.local`, `.venv`, `node_modules`, `.next`, `__pycache__`, or uploaded/generated files. The included `.gitignore` is set up for these.
 
-## 线上部署
+For Vercel, the included `.vercelignore` also keeps local caches and development artifacts out of the deployment bundle.
 
-已经补好最小部署文件：
-
-- [DEPLOY.md](/Users/zhuyifei/Documents/New%20project/DEPLOY.md)
-- [render.yaml](/Users/zhuyifei/Documents/New%20project/render.yaml)
-- [backend/Dockerfile](/Users/zhuyifei/Documents/New%20project/backend/Dockerfile)
-- [vercel.json](/Users/zhuyifei/Documents/New%20project/vercel.json)
-
-当前也支持把前后端一起部署到同一个 Vercel 项目：
-
-- 前端：Next.js
-- 后端：`api/index.py` 暴露的 FastAPI
-- 数据库与认证：Supabase
-
-## 下一步最值得继续做的事
-
-1. 把 Supabase Storage 也接上，保存原始报告文件
-2. 增加报告时间线和历次影像对比页
-3. 增加邮件提醒和真正的复查任务调度
-4. 把症状趋势图改成读取真实数据库记录
-5. 增加医生审核版提示词和更严格的医疗安全分层
+See [DEPLOY.md](./DEPLOY.md) for Vercel deployment steps.

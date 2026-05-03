@@ -4,13 +4,18 @@ from pathlib import Path
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
-from .schemas import ReportAnalysisResponse
-from .service import ReportAnalysisError, analyze_medical_report
+from .schemas import ReportAnalysisResponse, TravelSuggestionRequest, TravelSuggestionResponse
+from .service import (
+    ReportAnalysisError,
+    TravelSuggestionError,
+    analyze_medical_report,
+    suggest_travel_places,
+)
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-app = FastAPI(title="SpineCare AI API", version="0.2.0")
+app = FastAPI(title="Tripboard API", version="0.2.0")
 
 allowed_origins = os.environ.get("CORS_ORIGINS", "http://127.0.0.1:3000,http://localhost:3000")
 app.add_middleware(
@@ -23,10 +28,12 @@ app.add_middleware(
 
 
 @app.get("/health")
+@app.get("/api/health")
 async def health_check() -> dict[str, str]:
     return {"status": "ok"}
 
 
+@app.post("/api/reports/analyze", response_model=ReportAnalysisResponse)
 @app.post("/reports/analyze", response_model=ReportAnalysisResponse)
 async def analyze_report(
     file: UploadFile = File(...),
@@ -76,6 +83,35 @@ async def analyze_report(
     )
 
 
+@app.post("/api/travel/suggestions", response_model=TravelSuggestionResponse)
+@app.post("/travel/suggestions", response_model=TravelSuggestionResponse)
+async def travel_suggestions(payload: TravelSuggestionRequest) -> TravelSuggestionResponse:
+    destination = payload.destination
+    if not destination.country.strip() or not destination.region.strip():
+        raise HTTPException(status_code=400, detail="国家和地区为必填项。")
+
+    try:
+        result = suggest_travel_places(
+            country=destination.country,
+            region=destination.region,
+            city=destination.city,
+            start_date=payload.startDate,
+            end_date=payload.endDate,
+            travelers=payload.travelers,
+            language=payload.language,
+        )
+    except TravelSuggestionError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except Exception as exc:  # pragma: no cover - network or SDK failures
+        raise HTTPException(status_code=500, detail=f"AI 推荐生成失败：{exc}") from exc
+
+    return TravelSuggestionResponse(
+        suggestions=result.suggestions,
+        source=result.source,
+        rawModelText=result.raw_model_text,
+    )
+
+
 @app.get("/")
 async def root() -> dict[str, str]:
-    return {"message": "SpineCare AI backend is running"}
+    return {"message": "Tripboard backend is running"}

@@ -2,14 +2,14 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "SpineCare AI｜脊椎肿瘤复查助手",
-    short_name: "SpineCare AI",
-    description: "用于脊椎肿瘤患者复查提醒、报告解析、症状问诊和风险提示的 PWA 应用。",
+    name: "Tripboard",
+    short_name: "Tripboard",
+    description: "A bilingual collaborative travel planner with AI place suggestions and drag-and-drop scheduling.",
     start_url: "/",
     display: "standalone",
-    background_color: "#fffdfa",
-    theme_color: "#dceeff",
-    lang: "zh-CN",
+    background_color: "#f6f1ea",
+    theme_color: "#d8aaa5",
+    lang: "en",
     icons: [
       {
         src: "/icon",

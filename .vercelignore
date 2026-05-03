@@ -1,36 +1,37 @@
 .DS_Store
+.git
+.github
 .local
-.vercel
-node_modules
 .next
-dist
-coverage
-*.log
+.vercel
 
-frontend/.next
+node_modules
 frontend/node_modules
+frontend/.next
+frontend/out
+frontend/dist
 
 backend/.venv
 backend/.env
 frontend/.env.local
 frontend/.env.production
-frontend/out
-frontend/dist
-
 .env
 .env.*
 !.env.example
 !backend/.env.example
 !frontend/.env.example
 
-__pycache__/
-*.py[cod]
-*$py.class
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
+__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+.mypy_cache
+.ruff_cache
 
 backend/uploads/*
 backend/outputs/*
 !backend/uploads/.gitkeep
 !backend/outputs/.gitkeep
+
+presentation
+supabase

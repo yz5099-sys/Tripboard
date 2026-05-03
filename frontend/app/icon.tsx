@@ -17,14 +17,14 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "linear-gradient(135deg, #f9dde2 0%, #dceeff 58%, #fff4cc 100%)",
+          background: "linear-gradient(135deg, #d8aaa5 0%, #f3e5bc 58%, #8f948b 100%)",
           fontSize: 220,
           fontWeight: 700,
-          color: "#1e293b",
+          color: "#343331",
           borderRadius: 120
         }}
       >
-        S
+        T
       </div>
     ),
     size
