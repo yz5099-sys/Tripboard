@@ -19,8 +19,10 @@ The included `vercel.json` handles:
 - `npm install`
 - `npm run build`
 - output directory: `frontend/.next`
-- Python function runtime for `api/index.py`
+- Python function detection for `api/index.py`
 - API rewrites
+
+Do not add a manual `functions.runtime` value for Python in `vercel.json`. Vercel detects Python from `api/index.py`; the Python version is controlled by `.python-version`.
 
 The included `.vercelignore` keeps local build output, virtual environments, API keys, caches, uploaded files, and unrelated project artifacts out of the Vercel deployment bundle.
 
