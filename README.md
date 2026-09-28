@@ -2,7 +2,9 @@
 
 ## Original Idea
 
-I wanted to create a shared travel board that turns destination ideas into an editable daily itinerary. The intended workflow was simple: choose a destination and dates, get AI place suggestions, drag places into a schedule, adjust their duration, and share the trip. I prioritized usable interactions over a complete travel platform, with English and Chinese support and no accounts, payments, database, or map.
+When making the travel plan with a group of friends, I discovered that It was hard to decide every one's roles and parts. Even if the allocation of works was successful, there was a gap in the tools that can integrate and show everyone's suggestions.
+
+Due to this condition, I wanted to create a shared travel board that turns destination ideas into an editable daily itinerary. The intended workflow was simple: choose a destination and dates, get AI place suggestions, drag places into a schedule, adjust their duration, and share the trip. I prioritized usable interactions over a complete travel platform, with English and Chinese support and no accounts, payments, database, or map.
 
 The prototype uses Next.js, React, and Tailwind CSS for the frontend and FastAPI with the OpenAI Responses API for recommendations. It includes custom place cards, rating-sorted suggestions, a 06:00-24:00 schedule with 30-minute snapping, overlap checks, duration editing, and a muted gray, yellow, and pink visual style. Sharing generates an itinerary URL; synchronization currently uses browser-local storage and BroadcastChannel, so it does not provide shared trip data across different devices or users.
 
