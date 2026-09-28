@@ -73,11 +73,11 @@ I used **OpenAI Codex** as a coding assistant to implement and revise the interf
 
 Selected prompts from the development conversation (follow-up requests are translated or condensed into English):
 
-> Initial description:
+Initial description:
 
 > I want to build a web-based collaborative travel planner. And here are several functions and interactions that I want to achieve : drag-and-drop time scheduling, AI place suggestions, basic real-time collaboration, and English/Chinese support. The planner has three parts: they are....
 
-> Optimization suggestions after being tested:
+Optimization suggestions after being tested:
 
 > Let users edit the visit duration after dragging a place into the schedule, and change the block's length to match that duration.
 
